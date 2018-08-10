@@ -107,12 +107,19 @@
       )
     }
   }
+
+  fetch('https://my-json-server.typicode.com/TilianT/json/users')
+    .then((response) => {
+      return response.json();
+    })
+    .then((response) => {
+      ReactDOM.render(
+        <List data={response} />,
+        document.querySelector("#app")
+      )
+    })
   
 
-  ReactDOM.render(
-    <List data={users} />,
-    document.querySelector("#app")
-  )
 
 </script>
 
