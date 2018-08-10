@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Contacts</title>
+  
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+	<div id="app"></div>
+
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+
+<script type="text/babel">
+
+  var users = [
+    {
+      name: 'userr',
+      age:  '25'
+    },
+    {
+      name: 'userro',
+      age:  '31'
+    },
+    {
+      name: 'useringo',
+      age:  '16'
+    },
+  ];
+
+  class Search extends React.Component {
+    constructor(props) {
+      super(props);
+
+      this.handlerChange = this.handlerChange.bind(this);
+    }
+    handlerChange(e) {
+      this.props.filter(e.target.value);
+    }
+    render() {
+      return <input type="text" onChange={this.handlerChange}/>;
+    }
+  }
+
+  class Results extends React.Component {
+    render() {
+      return <p className="results">Найдено <b>{this.props.results}</b> совпадений</p>;
+    }
+  }
+
+  class ListItem extends React.Component {
+    constructor(props) {
+      super(props);
+
+      this.state = {show: ""};
+      this.handlerClick = this.handlerClick.bind(this);
+    }
+    handlerClick() {
+      var showClass = this.state.show === "show" ? "" : "show";
+
+      this.setState({show: showClass}); 
+    }
+    render() {
+      return (
+        <li>
+          <span onClick={this.handlerClick}>{ this.props.name }</span>
+          <div className={`more ${this.state.show}`} >
+            <span>Возраст: </span>
+            <span>{ this.props.age }</span>
+          </div>
+        </li>
+      )
+    }
+  }
+
+  class List extends React.Component {
+    constructor(props) {
+      super(props);
+
+      this.state = {data: this.props.data, results: this.props.data.length};
+
+      this.filter = this.filter.bind(this);
+    }
+    filter(text) {
+      var newData = this.props.data.filter((item) => {
+        return item.name.indexOf(text) > -1; 
+      })
+      this.setState({data: newData, results: newData.length});
+    }
+    render() {
+      return (
+        <div className="menu">
+          <Results results={this.state.results}/>
+          <Search filter={this.filter}/>
+          <ul>
+            {
+              this.state.data.map((user, index) => {
+                return <ListItem key={index}  name={user.name} age={user.age} />
+              })
+            }
+          </ul>
+        </div>
+      )
+    }
+  }
+  
+
+  ReactDOM.render(
+    <List data={users} />,
+    document.querySelector("#app")
+  )
+
+</script>
+
+</body>
+</html>
