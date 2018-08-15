@@ -22,7 +22,7 @@ input {
   border-top-left-radius: 5px;
 }
 input:focus {
-  border: 1px solid rgba(50,180,50,0.7);
+  border: 1px solid rgba(250,50,50,0.7);
 }
 
 .results {
